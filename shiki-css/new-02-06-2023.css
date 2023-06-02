@@ -1,0 +1,176 @@
+/* AUTO=sticky_menu */ @media screen and (min-width: 1025px) { .l-top_menu-v2 { position: sticky; top: 0; } .l-top_menu-v2 .active .submenu { max-height: calc(100vh - var(--top-menu-height)); overflow-y: auto; } }
+/* AUTO=body_background  body { background: url(/assets/background/congruent_pentagon.png) repeat; }*/
+
+
+/* Персонаж в углу */
+.mychar {
+    position: fixed;
+    z-index: 10;
+    pointer-events: none;
+    
+    right: 0;  /* положение блока с персонажем: отступ справа */
+    bottom: 40px; /* положение блока с персонажем: отступ снизу */
+    transform-origin: bottom right;
+}
+.mychar::after {
+    content: '';
+    display: block;
+    float: right;
+    width: 300px;  /* ширина блока с персонажем */
+    height: 300px; /* высота блока с персонажем */
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: contain;
+    background-image: /*url(https://for-images-shearing.onrender.com/images?data=2:307542)*/ url("https://raw.githubusercontent.com/Rb2PtCl6/images/main/optimized-images-webp/angel_origami_0(corn)-1-600-optimized.webp"); /* new: https://for-images-shearing.onrender.com/images?data=2:307542*/
+/*backup2:"https://raw.githubusercontent.com/Rb2PtCl6/images/main/Angel_Origami_0(corn)-2-500.png"*/
+  /* картинка с вашим персонажем, "https://raw.githubusercontent.com/Rb2PtCl6/images/main/Angel_Origami_0(corn).png", url( https://drive.google.com/uc?export=download&id=1hQO9U78RwDMysFCT5REcjyUmAtT3lY8s) url for backup*/
+}
+@media screen and (max-width: 599px) {
+    .mychar {
+        left: -53.8462%;
+        transform: scale(0.65);
+    }
+}
+@media screen and (min-width: 600px) and (max-width: 1024px),
+screen and (max-width: 599px) and (min-height: 720px)
+{
+    .mychar {
+        left: -33.3333%;
+        transform: scale(0.75);
+    }
+}
+/* Персонаж в углу: выезжание */
+.mychar {
+    animation-name: mychar-pop-in;
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0s;   /* задержка перед выезжанием */
+    animation-duration: 5s; /* длительность выезжания */
+}
+@keyframes mychar-pop-in {
+    from {
+        right: -250px;
+        visibility: hidden;
+    }
+    to {
+        right: 0;
+    }
+}
+
+/* Основной файл */
+@import url(https://shiki-theme.web.app/import/main.css);
+/* Стили обложки профиля */
+@import url(https://shiki-theme.web.app/import/profile-cover.css);
+/* Шрифт Roboto */
+@import url(https://shiki-theme.web.app/import/font-roboto.css);
+/* Шрифт Roboto Сondensed */
+@import url(https://shiki-theme.web.app/import/font-roboto_condensed.css);
+/* Изменения профиля v1.0 */
+@import url(https://shiki-theme.web.app/import/profile-update.1.css);
+/* Изменения профиля v1.1 */
+@import url(https://shiki-theme.web.app/import/profile-update.1.1.css);
+
+/* Настройки переменных темы */
+@media{:root {
+  /* Цвета текстов */
+  --color-text-primary: #212121;
+  --color-text-secondary: #525252;
+  --color-text-hint: #757575;
+  --color-text-disabled: #9e9e9e;
+  --color-overlay-text-hovered: rgba(33, 33, 33, 0.04);
+  --color-overlay-text-selected: rgba(33, 33, 33, 0.08);
+  --color-overlay-text-pressed: rgba(33, 33, 33, 0.12);
+  /* Цвет ссылок */
+  --color-link: #131a77;
+  --color-link-hover: #22f097;
+  --color-link-active: #0ec777;
+  /* Основной цвет */
+  --color-primary: #131a77;
+  --color-text-on-primary: #e0e1ed;
+  --color-primary-reduced: #555a9d;
+  --color-primary-hovered: #262c82;
+  --color-primary-pressed: #121972;
+  --color-overlay-primary-hovered: rgba(19, 26, 119, 0.08);
+  --color-overlay-primary-selected: rgba(19, 26, 119, 0.12);
+  --color-overlay-primary-pressed: rgba(19, 26, 119, 0.16);
+  /* Акцентирующий цвет */
+  --color-accent: #22f097;
+  --color-text-on-accent: #041f14;
+  --color-accent-reduced: #60f4b4;
+  --color-accent-fade: #95f8cd;
+  --color-overlay-accent-hovered: rgba(34, 240, 151, 0.08);
+  --color-overlay-accent-selected: rgba(34, 240, 151, 0.12);
+  --color-overlay-accent-pressed: rgba(34, 240, 151, 0.16);
+  /* Фоновые цвета */
+  --color-background: #ffffff;
+  --color-background-translucent: rgba(255, 255, 255, 0.9);
+  --color-background-dialog: #ffffff;
+  --color-surface: #f4f4f4;
+  --color-surface-hover: #eaeaea;
+  --color-surface-active: #e0e0e0;
+  --color-border: #e0e0e0;
+  /* Цвета верхнего меню */
+  --color-menu-background: #343434;
+  --color-menu-background-fade: rgba(52, 52, 52, 0.48);
+  --color-menu-text-primary: #e5e5e5;
+  --color-menu-text-disabled: #818181;
+  --color-menu-icon: #cecece;
+  --color-menu-search: #4c4c4c;
+  --color-menu-search-fade: rgba(229, 229, 229, 0.12);
+  --color-menu-background-hover: #444444;
+  --color-menu-background-active: #4c4c4c;
+  /* Цвета кнопок списков */
+  --color-planned: #d3f2ff;
+  --color-onhold: #e0e0e0;
+  --color-watching: #def5ff;
+  --color-rewatching: #def5ff;
+  --color-completed: #f1fae0;
+  --color-dropped: #fbd6d5;
+
+  /* Обложка профиля */
+  --user-cover: /*url(https://for-images-shearing.onrender.com/images?data=1:399912)*/
+url("https://raw.githubusercontent.com/Rb2PtCl6/images/main/optimized-images-webp/origami_fon_pc_2-1200x420-optimized.webp") /*backup2: "https://raw.githubusercontent.com/Rb2PtCl6/images/main/origami_fon_pc_2-1200x420-optim.png"*/
+/*url(https://raw.githubusercontent.com/Rb2PtCl6/images/main/origami_fon_pc_2-1200x420.png), new: */;
+  /* Фон сайта */
+  --user-background: /*url(https://for-images-shearing.onrender.com/images?data=0:522465)*/  url("https://raw.githubusercontent.com/Rb2PtCl6/images/main/optimized-images-webp/bg2-optimized.webp");
+/*backup2:"https://raw.githubusercontent.com/Rb2PtCl6/images/main/bg2.jpg"*/
+}}
+
+/* Моя обложка в профиле */
+.p-profiles .profile-head[data-user-id="937225"]::before {
+  display: block; /* Отображение обложки */
+  background-position: center 50%;
+}
+/* origami-poster*/
+@import url(https://css-club.web.app/css/custom_posters.min.css);
+[href*="characters/65261-"] {
+  --show-default: 0;
+  --custom-image: /*url(https://for-images-shearing.onrender.com/images?data=3:151420)*/ url("https://raw.githubusercontent.com/Rb2PtCl6/images/main/optimized-images-webp/tobiichi-origami-ava-2-1-ths-optimized.webp"); 
+  /*backup2: "https://raw.githubusercontent.com/Rb2PtCl6/images/main/Tobiichi-Origami-ava-2-1-ths.jpg"*/
+}
+[href*="characters/208570-"] {
+  --show-default: 0;
+  --custom-image: /*url(https://for-images-shearing.onrender.com/images?data=4:668131)*/ url("https://raw.githubusercontent.com/Rb2PtCl6/images/main/atar-ava/atar-ava-white-72q.webp");
+}
+/* origami-poster-2*/
+
+/* Замена стандартных постеров от grin3671 */
+@import url(https://css-club.web.app/css/custom_posters.min.css);
+/* Дополнение */
+@import url(https://raw.githubusercontent.com/ALTaww/Shikimori-posters/main/Update-posters.css);
+/* Добавляем постер в подсказку */
+@import url(https://raw.githubusercontent.com/ALTaww/Shikimori-posters/main/add-poster-to-tooltip.css);
+
+[href*="characters/65261-"], [srcset*="characters/65261/"] {
+    --show-default: 0;
+    --display-default-character: none;
+    --display-character-image: flex;
+    --custom-image: url("https://raw.githubusercontent.com/Rb2PtCl6/images/main/optimized-images-webp/tobiichi-origami-ava-2-1-ths-optimized.webp");
+}
+[href*="characters/208570-"], [srcset*="characters/208570/"] {
+    --show-default: 0;
+    --display-default-character: none;
+    --display-character-image: flex;
+    --custom-image: url("https://raw.githubusercontent.com/Rb2PtCl6/images/main/atar-ava/atar-ava-white-72q.webp");
+}
