@@ -29,15 +29,17 @@ async function execute_command(compression_level, format, achive_format, interac
                 storage[format][achive_format][compression_level] = {}
                 for await (var interaction of config.interactions){
                     var start = +new Date()
-                    await execute_command(compression_level, format, achive_format, interaction)
-                    var end = +new Date()
+                    await execute_command(compression_level, format, achive_format, interaction).then(()=>{
+                        var end = +new Date()
                     storage[format][achive_format][compression_level][interaction] = {
                         size: fs.statSync(`${format}-${compression_level}-${interaction}.${achive_format}`).size,
                         time: end - start
                     }
+                    })
                 }
             }
         }
     }
     console.log(storage)
+    fs.writeFileSync("out.json",JSON.stringify(storage))
 })()
