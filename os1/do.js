@@ -1,45 +1,65 @@
-import * as fs from 'node:fs'
-import { spawn } from 'child_process'
+import * as fs from 'node:fs';
+import { spawn } from 'child_process';
 
-const config = JSON.parse(fs.readFileSync("config.json"))
-var  storage = {}
+const config = JSON.parse(fs.readFileSync('config.json'));
+const storage = {};
 
-async function execute_command(compression_level, format, achive_format, interaction) {
-    const action = spawn("7z", "a", `-mx${compression_level}`, `${format}-${compression_level}-${interaction}.${achive_format}`, `${format}.${format}`)
-    action.stdout.on("data", data => {
-        console.log(`stdout: ${data}`)
-    })
-    action.stderr.on("data", data => {
-        console.log(`stderr: ${data}`)
-    })
+async function executeCommand(compressionLevel, format, archiveFormat, interaction) {
+  return new Promise((resolve, reject) => {
+    const action = spawn('7z', [
+      'a',
+      `-mx${compressionLevel}`,
+      `${format}-${compressionLevel}-${interaction}.${archiveFormat}`,
+      `${format}.${format}`,
+    ]);
+
+    action.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
+
+    action.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+    });
+
     action.on('error', (error) => {
-        console.log(`error: ${error.message}`)
-    })
-    action.on("close", code => {
-        console.log(`child process exited with code ${code}`)
-    })
+      console.error(`error: ${error.message}`);
+      reject(error);
+    });
+
+    action.on('close', (code) => {
+      console.log(`Process exited with code ${code}`);
+      resolve();
+    });
+  });
 }
 
 (async function () {
-    for await (var format of config.formats){
-        storage[format] = {"original_size": fs.statSync(`${format}.${format}`).size}
-        for await (var achive_format of config.achive_formats){
-            storage[format][achive_format] = {}
-            for await (var compression_level of config.compression_levels){
-                storage[format][achive_format][compression_level] = {}
-                for await (var interaction of config.interactions){
-                    var start = +new Date()
-                    await execute_command(compression_level, format, achive_format, interaction).then(()=>{
-                        var end = +new Date()
-                    storage[format][achive_format][compression_level][interaction] = {
-                        size: fs.statSync(`${format}-${compression_level}-${interaction}.${achive_format}`).size,
-                        time: end - start
-                    }
-                    })
-                }
-            }
+  for (const format of config.formats) {
+    storage[format] = {
+      original_size: fs.statSync(`${format}.${format}`).size,
+    };
+
+    for (const archiveFormat of config.achive_formats) {
+      storage[format][archiveFormat] = {};
+
+      for (const compressionLevel of config.compression_levels) {
+        storage[format][archiveFormat][compressionLevel] = {};
+
+        for (const interaction of config.interactions) {
+          const start = Date.now();
+          await executeCommand(compressionLevel, format, archiveFormat, interaction);
+          const end = Date.now();
+          const duration = end - start;
+
+          storage[format][archiveFormat][compressionLevel][interaction] = {
+            size: fs.statSync(`${format}-${compressionLevel}-${interaction}.${archiveFormat}`).size,
+            time: duration,
+          };
         }
+      }
     }
-    console.log(storage)
-    fs.writeFileSync("out.json",JSON.stringify(storage))
-})()
+  }
+
+  console.log(storage);
+  fs.writeFileSync('out.json', JSON.stringify(storage, null, 2));
+})();
